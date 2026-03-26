@@ -1,24 +1,31 @@
-# Python
+# --- Python & Environment ---
 __pycache__/
 *.py[cod]
 *$py.class
 .venv/
 venv/
 ENV/
-
-# Sensitive Data
 .env
 instance/
-.webassets-cache
 
-# Database
+# --- Database & Storage ---
 *.sqlite3
 *.db
+/app/static/uploads/*
+!/app/static/uploads/.gitkeep
 
-# Docker
+# --- AI & Logs ---
+*.log
+.google_auth_cache
+vector_store/
+
+# --- Docker & DevOps ---
 .dockerignore
 docker-compose.override.yml
+.buildozer/
+bin/
 
-# IDEs
+# --- IDE Settings ---
 .vscode/
 .idea/
+.DS_Store
