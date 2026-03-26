@@ -1,4 +1,7 @@
 🎓 Learnova AI: Advanced Mentorship & Course Generation
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Learnova is a high-performance, AI-driven learning platform. It leverages the Gemini 3 Flash model to generate structured curriculum skeletons, interactive quizzes, and personalized tutoring sessions. Built with Flask and fully containerized, it ensures a seamless bridge between complex AI schemas and a user-friendly educational experience.
 
 🚀 Key Features
