@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Achievements{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('main.static', filename='css/achievements.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+    <div class="row mb-5 text-center">
+        <div class="col-12">
+            <h1 class="fw-bold">Your Success Gallery</h1>
+            <p class="text-muted">Unlock badges by completing courses and acing quizzes.</p>
+        </div>
+    </div>
+
+    <h4 class="fw-bold mb-3">Platform Badges</h4>
+    <div class="row g-4 mb-5" id="badges-container"></div>
+
+    <h4 class="fw-bold mb-3">Subject Mastery Milestones</h4>
+    <div class="row g-4 mb-5" id="mastery-milestones-container"></div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="fw-bold mb-4">Mastery Progress</h4>
+                <div id="skills-progress-container"></div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('main.static', filename='js/achievements.js') }}"></script>
+{% endblock %}

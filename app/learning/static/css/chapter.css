@@ -1,0 +1,110 @@
+/* --- 1. Lecture Playlist Slider --- */
+.lecture-slider {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Butter-smooth on iPhones */
+    padding-left: 5px; /* Prevents shadow clipping */
+    padding-top: 5px; 
+}
+
+/* Custom Scrollbar for Chrome/Safari */
+.lecture-slider::-webkit-scrollbar {
+    height: 6px;
+}
+.lecture-slider::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+.lecture-slider::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+/* --- 2. Individual Lecture Card --- */
+.lecture-item {
+    width: 180px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lecture-item:hover {
+    transform: translateY(-5px);
+}
+
+.lecture-item img {
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.lecture-item .position-relative {
+    border-radius: 12px;
+    overflow: hidden;
+    isolation: isolate; /* Ensures the overlay doesn't bleed outside the corners */
+}
+
+.lecture-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 98, 255, 0.4); 
+    display: flex; /* Add this to center the icon */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.lecture-item:hover .lecture-overlay {
+    opacity: 1;
+}
+
+.lecture-item.active .lecture-overlay {
+    background: rgba(0, 0, 0, 0.1); /* Lighter overlay so the video thumbnail is clearer */
+    opacity: 1;
+}
+
+/* Active State */
+.lecture-item.active img {
+    border: 3px solid var(--primary); /* Force visibility */
+    transform: scale(0.96); /* Subtle "pressed" effect for the active video */
+}
+
+.lecture-item.active p {
+    color: var(--primary);
+}
+
+/* --- 3. Content Styling --- */
+#ch-title {
+    background: linear-gradient(to right, var(--dark), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 5px; /* Safety space */
+    display: inline-block; /* Essential for background-clip to behave */
+}
+
+#ch-intro {
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.ratio-16x9 {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2; /* The standard property to keep Pylance/VS Code happy */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.875rem; /* Matches Bootstrap's .small */
+    margin-top: 8px;
+}

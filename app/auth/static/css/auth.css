@@ -1,0 +1,159 @@
+/* --- 1. Main Background Logic --- */
+body.auth-page {
+    background-color: #f0f2f5;
+    background-image: radial-gradient(#d1d9e6 1px, transparent 1px);
+    background-size: 40px 40px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- 2. The Auth Card & Banner --- */
+.auth-card {
+    min-height: 620px;
+    border-radius: 20px;
+    background: #ffffff;
+    transition: var(--transition-standard); /* Using base.css transition */
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.auth-banner {
+    background: linear-gradient(135deg, var(--primary) 0%, #004dc7 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-banner::after {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+/* --- 3. Form Elements --- */
+.form-label {
+    letter-spacing: 0.5px;
+    color: var(--slate);
+    font-weight: 500;
+}
+
+.form-control-lg {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control-lg:focus {
+    border-color: var(--primary);
+    box-shadow: none;
+    background-color: #fff;
+}
+
+/* --- 4. Avatar & Upload Logic --- */
+.avatar-container {
+    transition: transform 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.avatar-container img {
+    box-shadow: 0 10px 25px rgba(0, 98, 255, 0.15) !important;
+    transition: all 0.3s ease;
+    object-fit: cover;
+}
+
+.avatar-container:hover img {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 98, 255, 0.25) !important;
+}
+
+.avatar-container label {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.avatar-container label:hover {
+    background-color: #004ecc !important; /* Darker shade of primary */
+    transform: scale(1.1);
+}
+
+/* --- 5. Step Indicators & Chips --- */
+.step-indicator {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    transition: all 0.3s;
+    background: #e9ecef;
+}
+
+.step-indicator.active {
+    background: var(--primary) !important;
+    color: #fff !important;
+    transform: scale(1.1);
+}
+
+.subject-chip {
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+    background: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.subject-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+}
+
+.subject-chip.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(0, 98, 255, 0.2);
+}
+
+/* --- 6. Helpers & Animations --- */
+.auth-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-hidden {
+    display: none !important;
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+@media (max-width: 991px) {
+    .auth-card { margin: 20px; min-height: auto; }
+}

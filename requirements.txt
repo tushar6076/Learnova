@@ -1,0 +1,33 @@
+# --- Core Framework ---
+Flask==3.0.2
+Flask-Login==0.6.3
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.7
+Flask-Mail==0.9.1
+Flask-Limiter==3.5.0
+Flask-Executor==1.0.0
+
+# --- Database & Storage ---
+psycopg2-binary==2.9.9
+redis==5.0.1
+fakeredis==2.21.0
+
+# --- AI Engines ---
+# For your google-genai integration
+google-genai==1.66.0
+groq==0.18.0
+
+# --- PDF Generation ---
+fpdf2==2.8.2
+
+# --- Data Validation & Schema ---
+pydantic==2.10.0
+pydantic-settings==2.7.0
+# Helps with the typing and JSON parsing
+typing-extensions==4.12.2
+
+# --- Scheduling & Utilities ---
+python-dotenv==1.0.1
+gunicorn==21.2.0
+# For handling timezone-aware objects (datetime.now(timezone.utc))
+python-dateutil==2.9.0

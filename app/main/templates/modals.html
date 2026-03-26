@@ -1,0 +1,126 @@
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0 pt-4 px-4">
+                <h5 class="fw-bold" id="settingsModalLabel">
+                    <i class="bi bi-person-gear text-primary me-2"></i>Edit Profile Details
+                </h5>
+            </div>
+            <div class="modal-body p-4">
+                <form id="settings-form">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="set-name" class="form-label small fw-bold">Full Name</label>
+                            <input type="text" class="form-control" id="set-name" value="{{details.name}}" placeholder="Enter your full name">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="set-age" class="form-label small fw-bold">Age</label>
+                            <input type="number" class="form-control" id="set-age" value="{{details.age}}" placeholder="Age">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="set-gender" class="form-label small fw-bold">Gender</label>
+                            <select class="form-select" id="set-gender" title="Select Gender">
+                                <option value="" {% if not details.gender or details.gender == 'undefined' %}selected{% endif %} disabled>Select Gender</option>
+                                <option value="Male" {% if details.gender == 'Male' %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if details.gender == 'Female' %}selected{% endif %}>Female</option>
+                                <option value="Other" {% if details.gender == 'Other' %}selected{% endif %}>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="text-end mb-2">
+                            <a href="javascript:void(0)" class="text-decoration-none small fw-bold" onclick="openSupportFromSettings()">
+                                <i class="bi bi-question-circle me-1"></i>Can't find your course?
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="set-level-select" class="form-label small fw-bold">Academic Level</label>
+                            <select class="form-select" id="set-level-select" title="Select Academic Level">
+                                <option value="" {% if not details.academic_level or details.academic_level == 'undefined' %}selected{% endif %} disabled>Select Level</option>
+                                <option value="school" {% if details.academic_level == 'school' %}selected{% endif %}>Schooling</option>
+                                <option value="college" {% if details.academic_level == 'college' %}selected{% endif %}>University / College</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="set-context-select" class="form-label small fw-bold" id="set-context-label">Board / Major</label>
+                            <select class="form-select" id="set-context-select" title="Select Board or Major">
+                                <option value="" selected disabled>Select Above First</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="set-branch" class="form-label small fw-bold">Branch</label>
+                            <select class="form-select" id="set-branch" title="Select Branch">
+                                <option value="" selected disabled>Select Above First</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="set-grade" class="form-label small fw-bold">Grade / Year</label>
+                            <select class="form-select" id="set-grade" title="Select Grade or Year">
+                                <option value="" selected disabled>Select Above First</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label small fw-bold d-block">Interested Subjects (MIN 3)</label>
+                        <div id="set-subject-chips" class="d-flex flex-wrap gap-2"></div>
+                        <small class="text-muted mt-2 d-block">Selecting subjects helps our AI recommend the right tutorials for you.</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4">
+                <button type="button" class="btn btn-light px-4" onclick="location.reload()" data-bs-dismiss="modal">Discard</button>
+                <button type="submit" form="settings-form" class="btn btn-primary px-4 fw-bold shadow-sm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-warning">
+                <h6 class="fw-bold mb-0" id="passwordModalLabel"><i class="bi bi-key-fill me-2"></i>Update Password</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close Password Modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="password-change-form">
+                    <div class="mb-3">
+                        <label for="old-p" class="form-label small fw-bold">Current Password</label>
+                        <input type="password" class="form-control" id="old-p" required placeholder="Enter current password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-p" class="form-label small fw-bold">New Password</label>
+                        <input type="password" class="form-control" id="new-p" required placeholder="Enter new password">
+                    </div>
+                    <div class="mb-4">
+                        <label for="conf-p" class="form-label small fw-bold">Confirm New Password</label>
+                        <input type="password" class="form-control" id="conf-p" required placeholder="Confirm new password">
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 fw-bold">Update Security</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>Permanent Deletion</h5>
+      </div>
+      <div class="modal-body p-4">
+        <p class="mb-0">Are you sure you want to delete your account? This will <strong>permanently erase</strong> all your test results, progress, and settings. This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Keep My Account</button>
+        <button type="button" id="confirm-delete-btn" class="btn btn-danger px-4 fw-bold">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+</div>

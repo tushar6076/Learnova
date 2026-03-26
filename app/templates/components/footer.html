@@ -1,0 +1,75 @@
+<footer id="contact" class="bg-dark text-white pt-5 pb-4 border-top border-primary">
+    <div class="container text-center text-md-start">
+        <div class="row">
+            
+            <div class="col-md-4 col-lg-4 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 fw-bold text-primary">Learnova</h5>
+                <p class="small">
+                    Empowering students with an innovative edge to track academic excellence and master new skills. Your journey to success starts here.
+                </p>
+                <div class="mt-4">
+                    <a class="text-white me-3 fs-5 social-btn" data-url="https://www.facebook.com" aria-label="Facebook" title="Visit Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a class="text-white me-3 fs-5 social-btn" data-url="https://www.instagram.com" aria-label="Instagram" title="Visit Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a class="text-white me-3 fs-5 social-btn" data-url="https://www.linkedin.com" aria-label="LinkedIn" title="Visit LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 fw-bold text-primary ls-wide">Explore</h5>
+                
+                <p class="small mb-2">
+                    <a href="{{ url_for('main.get_user_profile') }}" class="footer-nav-link text-decoration-none">Dashboard</a>
+                </p>
+                <p class="small mb-2">
+                    <a href="{{ url_for('learn.tutorials') }}" class="footer-nav-link text-decoration-none">Course Library</a>
+                </p>
+                <p class="small mb-2">
+                    <a href="{{ url_for('learn.load_quizzes_page') }}" class="footer-nav-link text-decoration-none">Skill Tests</a>
+                </p>
+                <p class="small mb-2">
+                    <a href="{{ url_for('main.achievements') }}" class="footer-nav-link text-decoration-none">Badges</a>
+                </p>
+            </div>
+
+            <div class="col-md-5 col-lg-4 col-xl-4 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 fw-bold text-primary">Support</h5>
+                
+                <p class="small mb-2 contact-action d-flex align-items-center justify-content-center justify-content-md-start" 
+                   id="email" data-email="support@learnova.edu" title="Send us an email">
+                    <i class="bi bi-envelope-fill me-2 text-primary"></i> support@learnova.edu
+                </p>
+
+                <p class="small mb-2 contact-action d-flex align-items-center justify-content-center justify-content-md-start" 
+                   id="phone" data-phone="+919876543210" title="Call support">
+                    <i class="bi bi-telephone-fill me-2 text-primary"></i> +91 98765 43210
+                </p>
+                
+                <p class="small mb-2">
+                    <i class="bi bi-mortarboard-fill me-2 text-primary"></i> Student Success Center
+                </p>
+                
+                <p class="small mb-2">
+                    <i class="bi bi-info-circle-fill me-2 text-primary"></i> Version 1.0 (Beta)
+                </p>
+            </div>
+
+        </div>
+
+        <hr class="my-4 border-secondary opacity-25">
+
+        <div class="row">
+            <div class="col-12">
+                <p class="text-center small text-muted mb-0">
+                    © 2026 Learnova Academic Edge. All Rights Reserved. 
+                    <span class="d-block d-md-inline ms-md-2">Innovate • Track • Succeed</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,34 @@
+<div class="modal fade" id="supportModal" tabindex="-1" aria-labelledby="supportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white p-4">
+                <h5 class="fw-bold mb-0" id="supportModalLabel">
+                    <i class="bi bi-headset me-2 text-primary"></i>Learnova Help Center
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close Help Center" title="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-muted small mb-4">Facing issues? Our team usually responds within 24 hours.</p>
+                
+                <div class="mb-3">
+                    <label for="supportCategory" class="form-label small fw-bold">What's the issue?</label>
+                    <select class="form-select" id="supportCategory" title="Select issue category">
+                        <option value="technical">Technical bug on page</option>
+                        <option value="content">Course content error</option>
+                        <option value="payment">Payment/Subscription help</option>
+                        <option value="request">Feature Request</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="supportDetails" class="form-label small fw-bold">Details</label>
+                    <textarea id="supportDetails" class="form-control" rows="4" placeholder="How can we help?" title="Enter issue details"></textarea>
+                </div>
+
+                <button id="submitTicketBtn" class="btn btn-primary w-100 fw-bold py-2 shadow-sm" title="Submit your support request">
+                    Submit Ticket
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

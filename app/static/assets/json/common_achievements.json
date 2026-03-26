@@ -1,0 +1,47 @@
+[
+  {
+    "id": "starter_01",
+    "title": "First Contact",
+    "description": "Completed your very first quiz on the platform.",
+    "icon": "bi-rocket-takeoff",
+    "requirement_type": "total_quizzes",
+    "requirement_value": 1,
+    "color": "primary"
+  },
+  {
+    "id": "consistency_01",
+    "title": "Rising Scholar",
+    "description": "Successfully completed 5 quizzes.",
+    "icon": "bi-graph-up-arrow",
+    "requirement_type": "total_quizzes",
+    "requirement_value": 5,
+    "color": "info"
+  },
+  {
+    "id": "volume_01",
+    "title": "Centurion",
+    "description": "Answered a total of 100 questions across all subjects.",
+    "icon": "bi-bullseye",
+    "requirement_type": "total_questions",
+    "requirement_value": 100,
+    "color": "warning"
+  },
+  {
+    "id": "variety_01",
+    "title": "Polymath",
+    "description": "Explored and tested yourself in 3 different subjects.",
+    "icon": "bi-collection",
+    "requirement_type": "subjects_count",
+    "requirement_value": 3,
+    "color": "success"
+  },
+  {
+    "id": "perfection_01",
+    "title": "Eagle Eye",
+    "description": "Achieved a perfect score (100%) in any quiz.",
+    "icon": "bi-patch-check-fill",
+    "requirement_type": "high_score",
+    "requirement_value": 100,
+    "color": "danger"
+  }
+]

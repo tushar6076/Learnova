@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # The Flask Application (Learnova)
+  web:
+    build: .
+    container_name: learnova_app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - .:/app
+      - learnova_uploads:/app/app/static/uploads
+    restart: always
+
+  # PostgreSQL 16 (The reliable "Storage")
+  db:
+    image: postgres:16-alpine
+    container_name: learnova_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-learnova_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis 7 (The "Fast Memory" for Limiter)
+  redis:
+    image: redis:7-alpine
+    container_name: learnova_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+  learnova_uploads:

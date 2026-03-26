@@ -1,0 +1,119 @@
+/* --- 1. Hero Section --- */
+.hero-bg {
+    background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+    padding: 100px 0 140px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-primary-light {
+    color: #60a5fa;
+}
+
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 98, 255, 0.2) 0%, transparent 70%);
+    top: -200px;
+    right: -100px;
+    z-index: 0;
+}
+
+.hero-icon-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.floating-icon {
+    display: inline-block;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(0, 98, 255, 0.4));
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.hero-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 60px;
+}
+
+.hero-wave .shape-fill {
+    fill: #fdfdfd; /* Matches base.css background */
+}
+
+/* --- 2. The Feature Card --- */
+.feature-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border-radius: 24px !important; 
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--primary-soft);
+}
+
+/* --- 3. The Icon Box (Squircle) --- */
+.icon-box {
+    transition: all 0.4s ease;
+    border-radius: 18px !important; 
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-card:hover .icon-box {
+    transform: scale(1.15) rotate(12deg);
+    box-shadow: 0 8px 20px rgba(0, 98, 255, 0.15);
+}
+
+/* --- 4. Button Logic --- */
+.feature-card .btn {
+    border-radius: 12px;
+    font-weight: 700;
+    padding: 0.6rem 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .btn-outline-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.feature-card:hover .btn-outline-success { background: #10b981; color: #fff; border-color: #10b981; }
+.feature-card:hover .btn-outline-warning { background: #f59e0b; color: #fff; border-color: #f59e0b; }
+.feature-card:hover .btn-outline-info { background: #06b6d4; color: #fff; border-color: #06b6d4; }
+
+/* --- 5. Entrance Animation --- */
+#home-cards-container > div {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes slideIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Staggered animation */
+#home-cards-container > div:nth-child(1) { animation-delay: 0.1s; }
+#home-cards-container > div:nth-child(2) { animation-delay: 0.2s; }
+#home-cards-container > div:nth-child(3) { animation-delay: 0.3s; }
+#home-cards-container > div:nth-child(4) { animation-delay: 0.4s; }

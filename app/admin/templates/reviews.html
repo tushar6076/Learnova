@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Support Inbox{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('admin.static', filename='css/reviews.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1 text-dark">Support Inbox</h2>
+            <p class="text-muted mb-0">Manage user feedback, bug reports, and curriculum requests.</p>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-end d-none d-sm-block">
+                <div class="fw-bold text-primary">{{ reviews|length }} Total Tickets</div>
+                <small class="text-muted">Last updated: Just now</small>
+            </div>
+            <span class="badge badge-count-pill">{{ reviews|length }}</span>
+        </div>
+    </div>
+    
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light-subtle">
+                    <tr>
+                        <th scope="col" class="ps-4 py-3 text-uppercase x-small-header">User Information</th>
+                        <th scope="col" class="py-3 text-uppercase x-small-header">Category</th>
+                        <th scope="col" class="py-3 text-uppercase x-small-header">Message Preview</th>
+                        <th scope="col" class="py-3 text-uppercase x-small-header text-center">Status</th>
+                        <th scope="col" class="pe-4 py-3 text-uppercase x-small-header text-end">Management</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review, user in reviews %}
+                    <tr id="row-{{ review.id }}" class="review-row {% if review.is_resolved %}resolved-row{% endif %}">
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-3">
+                                    {{ (review.author.details.name[0] if review.author and review.author.details else review.email[0]) | upper }}
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark mb-0">
+                                        {% if review.author and review.author.details %}
+                                            {{ review.author.details.name }}
+                                        {% else %}
+                                            {{ review.email.split('@')[0] | capitalize }}
+                                        {% endif %}
+                                    </div>
+                                    <small class="text-muted d-block">{{ review.email }}</small>
+                                    {% if not user %}
+                                        <span class="badge bg-secondary-subtle text-secondary x-small-badge">Guest/Deleted</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="badge-issue {% if review.issue_type == 'Technical bug on page' %}type-bug{% else %}type-general{% endif %}">
+                                {{ review.issue_type }}
+                            </span>
+                        </td>
+
+                        <td class="review-details-cell">
+                            <p class="mb-0 text-muted truncate-2-lines small">
+                                {{ review.issue_details }}
+                            </p>
+                        </td>
+
+                        <td class="text-center">
+                            {% if review.is_resolved %}
+                                <div class="status-indicator status-resolved">
+                                    <i class="bi bi-check-circle-fill me-1"></i> Resolved
+                                </div>
+                            {% else %}
+                                <div class="status-indicator status-pending">
+                                    <i class="bi bi-clock-history me-1"></i> Pending
+                                </div>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-end pe-4">
+                            <a href="{{ url_for('admin.get_review', review_id=review.id) }}" 
+                               class="btn btn-view-ticket">
+                                Details <i class="bi bi-chevron-right ms-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('admin.static', filename='js/reviews.js') }}"></script>
+{% endblock %}

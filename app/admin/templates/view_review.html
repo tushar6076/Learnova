@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Ticket #{{ review.id }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('admin.static', filename='css/view_review.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{{ url_for('admin.view_reviews') }}" class="text-decoration-none">Inbox</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ticket #{{ review.id }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 mb-4 ticket-detail-card">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="badge badge-issue-type px-3 py-2 rounded-pill">{{ review.issue_type }}</span>
+                        <small class="text-muted"><i class="bi bi-clock me-1"></i>{{ review.timestamp.strftime('%d %b, %H:%M') }}</small>
+                    </div>
+                    
+                    <h4 class="fw-bold mb-3 text-dark">Issue Description</h4>
+                    <p class="text-secondary lead-sm mb-5">{{ review.issue_details }}</p>
+                    
+                    <div class="user-profile-section p-3 rounded-4 bg-light d-flex align-items-center">
+                        <div class="avatar-circle me-3 bg-primary text-white shadow-sm">
+                            {% if review.author and review.author.details %}
+                                {{ review.author.details.name[0] | upper }}
+                            {% else %}
+                                {{ review.email[0] | upper }}
+                            {% endif %}
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="fw-bold text-dark d-flex align-items-center">
+                                {% if review.author and review.author.details %}
+                                    {{ review.author.details.name }} 
+                                    <span class="badge-role user-badge ms-2">User</span>
+                                {% else %}
+                                    {{ review.email.split('@')[0] | capitalize }}
+                                    <span class="badge-role prospect-badge ms-2">Prospect</span>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted"><i class="bi bi-envelope me-1"></i>{{ review.email }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if not review.is_resolved and review.issue_type=='Course content error' %}
+            <div class="card border-ai-primary shadow-sm rounded-4 mb-4 overflow-hidden ai-gen-card">
+                <div class="card-header bg-primary text-white py-3 border-0">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-stars fs-4 me-2"></i>
+                        <h5 class="mb-0 fw-bold">AI Resolution: Generate Course</h5>
+                    </div>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form id="ai-gen-form">
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <label for="course_id" class="form-label admin-label d-flex justify-content-between">
+                                    Course ID (Unique Key)
+                                    <span id="char-count" class="text-primary fw-bold">0/32</span>
+                                </label>
+                                <input type="text" id="course_id" maxlength="32" class="form-control form-control-lg bg-light-subtle fw-bold" disabled>
+                                <div class="form-text x-small">Generated based on Level + Context + Branch.</div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="set-level-select" class="form-label admin-label">Level</label>
+                                <select class="form-select" id="set-level-select" required>
+                                    <option value="" selected disabled>Select...</option>
+                                    <option value="school">Schooling</option>
+                                    <option value="college">University</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="set-context-field" class="form-label admin-label">Context</label>
+                                <input type="text" id="set-context-field" class="form-control" placeholder="e.g., CBSE" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="set-branch-field" class="form-label admin-label">Branch</label>
+                                <input type="text" id="set-branch-field" class="form-control" placeholder="e.g., CSE" required>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="set-grade-select" class="form-label admin-label">Grade / Year Level</label>
+                                <select class="form-select" id="set-grade-select" disabled>
+                                    <option value="" selected disabled>Select Above First</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="subject-preview-section" class="mt-5 d-none">
+                            <label class="form-label admin-label">AI Suggested Subjects</label>
+                            <div id="subject-chips" class="d-flex flex-wrap gap-2 p-3 border rounded-4 bg-white shadow-inner-sm">
+                                </div>
+                            <div class="form-text mt-2"><i class="bi bi-info-circle-fill me-1"></i> These subjects will form the core structure of the new course.</div>
+                        </div>
+
+                        <div id="gen-status" class="mt-4 d-none">
+                            <div class="alert alert-soft-primary d-flex align-items-center mb-0 border-0 rounded-3">
+                                <div class="spinner-border spinner-border-sm me-3" role="status"></div>
+                                <span class="small fw-medium">AI is generating 5 subjects and 150+ questions. Please wait (~2 mins).</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-5 shadow-sm fw-bold py-3 action-btn-sparkle" id="submit-gen">
+                            <i class="bi bi-lightning-charge-fill me-2"></i>Generate & Seed Course
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sticky-sidebar">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Ticket Controls</h5>
+                        <h4 class="fw-bold text-danger">Work in Progress</h4>
+                        <p>this function will be added soon.......</p>
+                        <div class="mb-4">
+                            <label for="issue-type-select" class="admin-label mb-2">Change Category</label>
+                            <select class="form-select shadow-none bg-light border-0" id="issue-type-select">
+                                <option {% if review.issue_type == 'Technical bug on page' %}selected{% endif %}>Technical bug on page</option>
+                                <option {% if review.issue_type == 'Course content error' %}selected{% endif %}>Course content error</option>
+                                <option {% if review.issue_type == 'Payment/Subscription help' %}selected{% endif %}>Payment/Subscription help</option>
+                                <option {% if review.issue_type == 'Feature Request' %}selected{% endif %}>Feature Request</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {% if not review.is_resolved %}
+                            <button class="btn btn-success py-2 fw-bold resolve-btn shadow-sm" onclick='alert("Work in Progress")' data-id="{{ review.id }}">
+                                <i class="bi bi-check-circle me-2"></i>Mark Resolved
+                            </button>
+                            {% else %}
+                            <div class="alert alert-soft-success d-flex align-items-center py-2 border-0">
+                                <i class="bi bi-patch-check-fill me-2 text-success"></i>
+                                <span class="small fw-bold text-success">Ticket Resolved</span>
+                            </div>
+                            {% endif %}
+                            
+                            <a href="mailto:{{ review.email }}" class="btn btn-outline-secondary py-2 fw-medium">
+                                <i class="bi bi-reply-fill me-2"></i>Contact 
+                                {% if review.author and review.author.details %}
+                                    {{ review.author.details.name.split(' ')[0] }}
+                                {% else %}
+                                    {{ review.email.split('@')[0] | capitalize }}
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-white rounded-4 shadow-sm border border-light text-center">
+                    <p class="x-small text-muted mb-0">Review ID: <code>{{ review.id }}</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

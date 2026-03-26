@@ -1,0 +1,215 @@
+/* Learnova Global DNA */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary: #0062ff;
+    --primary-soft: rgba(0, 98, 255, 0.1);
+    --dark: #0f172a;
+    --slate: #64748b;
+    --glass: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1);
+}
+
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #fdfdfd;
+    color: var(--dark);
+    -webkit-font-smoothing: antialiased;
+}
+main {
+    flex: 1 0 auto; /* This pushes the footer to the bottom */
+}
+
+/* Global Navbar Customization */
+.navbar {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1050 !important;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0.5rem 1.2rem !important;
+    border-radius: 8px;
+    margin: 0 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link.active {
+    background: var(--primary-soft);
+    color: var(--primary) !important;
+}
+
+/* Desktop Hover Underline Animation */
+@media (min-width: 992px) {
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+    .nav-link:hover::after {
+        width: 30%;
+    }
+}
+
+/* Mobile Highlight (Icon Glow) - Fixed variable name here */
+@media (max-width: 991px) {
+    .nav-link.active i {
+        color: var(--primary); 
+        text-shadow: 0 0 8px rgba(0, 98, 255, 0.5);
+    }
+}
+
+/* Footer & Social Specifics */
+footer {
+    flex-shrink: 0; /* Ensures the footer doesn't get squashed */
+}
+
+/* --- Refined Footer CSS --- */
+#contact {
+    background-color: var(--dark) !important;
+    border-top: 3px solid var(--primary) !important;
+    box-shadow: 0 -10px 40px rgba(0, 98, 255, 0.05); /* Subtle upward glow */
+}
+
+.social-btn {
+    display: inline-block;
+    transition: transform 0.2s, color 0.2s;
+    color: var(--slate) !important;
+}
+
+.social-btn:hover {
+    transform: scale(1.2);
+    color: var(--primary) !important;
+}
+
+.footer-nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    position: relative;
+}
+
+.footer-nav-link:hover {
+    color: var(--primary) !important;
+    padding-left: 12px;
+}
+
+.footer-nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--primary);
+    transition: height 0.3s ease;
+    border-radius: 2px;
+}
+
+.footer-nav-link:hover::before {
+    height: 70%;
+}
+
+/* Contact Item Micro-interactions */
+.contact-action {
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.contact-action:hover {
+    padding-left: 8px; /* Smoothly pushes the whole row right */
+    color: var(--primary) !important;
+}
+
+.contact-action i {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-action:hover i {
+    color: var(--primary);
+    transform: scale(1.1); /* Makes the icon pop slightly */
+}
+
+/* Card Elevation System */
+.card {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-soft);
+}
+
+/* Premium Button Feel */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), #004ecc);
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 98, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 98, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+/* Utility Classes & Scrollbar */
+.ls-wide { letter-spacing: 1px; }
+
+.text-gradient {
+    background: linear-gradient(to right, #0d6efd, #3e8eff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.display-title {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to bottom right, var(--dark), var(--slate));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.badge-soft {
+    padding: 0.4em 0.8em;
+    background: var(--primary-soft);
+    color: var(--primary);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }

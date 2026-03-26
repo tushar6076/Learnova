@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Chapter - {{ chapter.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('learn.static', filename='css/chapter.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_modal.css')}}">
+{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('learn.tutorials') }}" class="text-decoration-none">Tutorials</a></li>
+            <li class="breadcrumb-item active" id="breadcrumb-chapter" aria-current="page">{{ chapter.subject.subject_name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-10 mx-auto"> <div class="card shadow-sm border-0 chapter-main-card">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-4 mb-4 gap-3">
+                        <h1 class="fw-bold mb-0 display-title" id="ch-title">{{ chapter.title }}</h1>
+                        <button class="btn btn-primary rounded-pill px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#aiChatModal" title="Get help from Learnova AI">
+                            <i class="bi bi-robot me-2"></i> Ask Tutor
+                        </button>
+                    </div>
+                    
+                    <div class="overview-container mb-5 p-4 p-md-5 rounded-4 bg-light border-start border-primary border-4 shadow-sm">
+                        <div class="d-flex align-items-center mb-4">
+                            <h4 class="text-primary fw-bold mb-0">
+                                <i class="bi bi-compass me-2"></i>Chapter Journey
+                            </h4>
+                        </div>
+                        
+                        <div id="ch-intro" class="chapter-description-box">
+                            {{ chapter.overview }}
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="text-primary fw-bold mb-3"><i class="bi bi-play-btn me-2"></i>Video Lesson</h4>
+                        {% if chapter.video_stack and chapter.video_stack|length > 0 %}
+                            <div class="ratio ratio-16x9 shadow rounded-4 overflow-hidden bg-dark main-video-frame">
+                                {% set first_video = chapter.video_stack|first %} 
+                                <iframe 
+                                    id="ch-video" 
+                                    src="{{ first_video.url | embed }}" 
+                                    title="Video lesson: {{ first_video.title }}"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <h5 class="mt-4 fw-bold text-gradient" id="active-lecture-title">{{ first_video.title }}</h5>
+                        {% else %}
+                            <div class="alert alert-soft-primary border-0 d-flex align-items-center">
+                                <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+                                <div>No videos available for this chapter yet. Our team is working on it!</div>
+                            </div>
+                        {% endif %}
+
+                        <div class="mt-5">
+                            <h6 class="text-muted fw-bold small text-uppercase mb-3 ls-wide">Chapter Playlist</h6>
+                            <div class="lecture-slider d-flex flex-nowrap overflow-auto pb-3 gap-3" id="lecture-stack">
+                                {% for lec in chapter.video_stack %}
+                                    {% set video_id = lec.url.split('v=')[-1].split('&')[0] if 'v=' in lec.url else lec.url.split('/')[-1].split('?')[0] %}
+                                    
+                                    <div class="lecture-item flex-shrink-0 social-btn {% if loop.first %}active{% endif %}" 
+                                        data-video="{{ lec.url | embed }}" 
+                                        data-title="Lecture {{ loop.index }}: {{ lec.title }}"
+                                        title="Play: {{ lec.title }}">
+                                        
+                                        <div class="position-relative mb-2 video-thumb-wrapper">
+                                            <img src="https://img.youtube.com/vi/{{ video_id }}/mqdefault.jpg" 
+                                                class="rounded-3 w-100" 
+                                                alt="Thumbnail for {{ lec.title }}"
+                                                onerror="this.src='https://via.placeholder.com/200x110/0062ff/ffffff?text=Lesson+{{ loop.index }}'">
+                                            
+                                            <div class="play-overlay">
+                                                <i class="bi bi-play-circle-fill text-white fs-2"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="small fw-bold mb-0 text-truncate-2">
+                                            {{ loop.index }}. {{ lec.title }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-4 border border-light-subtle rounded-4 bg-light shadow-sm h-100 transition-up">
+                                <h5 class="fw-bold"><i class="bi bi-patch-check me-2 text-warning"></i>Knowledge Check</h5>
+                                <p class="small text-muted mb-4">Finished the video? Test your understanding and earn progress badges.</p>
+                                <a href="{{ url_for('learn.load_quizzes_page', chapter_id=chapter.chapter_id) }}" class="btn btn-warning w-100 fw-bold py-2 shadow-sm">
+                                    Start Chapter Quiz
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-4 border border-light-subtle rounded-4 bg-light shadow-sm h-100 transition-up">
+                                <h5 class="fw-bold"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>Study Material</h5>
+                                <p class="small text-muted mb-4">Download comprehensive notes and summaries for offline reading.</p>
+                                <div id="pdf-container">
+                                    {% if chapter.pdf_file_path %}
+                                        <a href="{{ chapter.pdf_file_path }}" class="btn btn-outline-danger w-100 fw-bold py-2 shadow-sm" download>
+                                            <i class="bi bi-download me-2"></i>Download PDF
+                                        </a>
+                                    {% else %}
+                                        <button id="btn-gen-pdf" class="btn btn-outline-primary w-100 fw-bold py-2 shadow-sm" data-chapter-id="{{ chapter.chapter_id }}">
+                                            <i class="bi bi-magic me-2"></i>Generate AI Notes
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% with chat_context='chapter', chapter=chapter %}
+    {% include 'ai_modal.html' %} 
+{% endwith %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ url_for('learn.static', filename='js/chapter.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ai_chat.js') }}"></script>
+{% endblock %}

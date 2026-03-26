@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Tutorials{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('learn.static', filename='css/tutorials.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4">
+    <div class="row px-md-4">
+        <aside class="col-lg-4 col-md-5 mb-4">
+            <div class="card shadow-sm border-0 curriculum-sidebar">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-journal-bookmark-fill me-2"></i>Curriculum</h5>
+                </div>
+                <div class="accordion accordion-flush" id="curriculumAccordion" aria-live="polite">
+                    </div>
+            </div>
+        </aside>
+
+        <main class="col-lg-8 col-md-7">
+            <div id="content-placeholder" class="text-center py-5">
+                <i class="bi bi-book-half display-1 text-muted"></i>
+                <h3 class="mt-3">Select a chapter to preview</h3>
+                <p class="text-muted">Choose a subject from the curriculum to see chapter details.</p>
+            </div>
+            
+            <div id="chapter-workspace" class="d-none">
+                <div class="card shadow-sm border-0 overflow-hidden workspace-card">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="icon-box text-primary me-3 p-3 rounded">
+                                <i class="bi bi-journal-text fs-3" aria-hidden="true"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-uppercase fw-bold text-primary mb-0 small ls-wide">Chapter Preview</h6>
+                                <h2 class="fw-bold" id="main-chapter-title">Chapter Title</h2>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold"><i class="bi bi-card-text me-2 text-primary"></i> What you'll learn</h5>
+                            <p id="chapter-intro" class="text-muted fs-5"></p>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light resource-pill">
+                                    <small class="text-muted d-block mb-1">Estimated Time</small>
+                                    <span class="fw-bold"><i class="bi bi-clock me-1 text-primary"></i> 45 Minutes</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light resource-pill">
+                                    <small class="text-muted d-block mb-1">Resources</small>
+                                    <span class="fw-bold"><i class="bi bi-file-earmark-pdf me-1 text-primary"></i> PDF + Quiz Included</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center text-md-start">
+                            <a href="#" id="enter-chapter-btn" class="btn btn-primary btn-lg px-5 fw-bold shadow-sm">
+                                Start Learning Now <i class="bi bi-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('learn.static', filename='js/tutorials.js') }}"></script>
+{% endblock %}

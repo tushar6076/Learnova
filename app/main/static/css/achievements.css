@@ -1,0 +1,106 @@
+/* --- 1. Gallery Header --- */
+h1.fw-bold {
+    background: linear-gradient(to right, var(--dark), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+/* --- 2. The Badge Card System --- */
+.badge-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: transparent;
+}
+
+.badge-card:not(.locked):hover {
+    background: #fff;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-10px);
+}
+
+.badge-icon {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    margin: 0 auto;
+    font-size: 2.2rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+/* Give unlocked icons a "medal" glow */
+.badge-card:not(.locked) .badge-icon {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.badge-card:not(.locked):hover .badge-icon {
+    transform: scale(1.15) rotate(10deg);
+}
+
+/* --- 3. Locked State Styling --- */
+.badge-card.locked {
+    opacity: 0.6;
+    filter: grayscale(0.8);
+}
+
+.badge-card.locked .badge-icon {
+    background: #e2e8f0 !important; /* Soft slate instead of harsh gray */
+    color: #94a3b8;
+    border: 2px dashed #cbd5e1;
+    box-shadow: none;
+}
+
+.badge-card.locked i::before {
+    content: "\F471"; /* Bootstrap Icons Lock icon hex */
+    font-family: "bootstrap-icons";
+    font-size: 1.2rem;
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: var(--dark);
+    color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+/* --- 4. Mastery Progress Bars --- */
+.progress {
+    background-color: #f1f5f9;
+    overflow: visible; /* Allows the bar to "glow" */
+}
+
+.progress-bar {
+    border-radius: 10px;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Add a small tip glow to the progress bar */
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    filter: blur(4px);
+}
+
+/* --- 5. Mastery Milestone Special Styling --- */
+#mastery-milestones-container .badge-icon {
+    border-radius: 18px; /* Milestones are "Squircles", Badges are Circles */
+}

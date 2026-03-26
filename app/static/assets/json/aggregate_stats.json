@@ -1,0 +1,27 @@
+[
+    { 
+        "key": "badge_count", 
+        "label": "Badges Earned", 
+        "icon": "bi-patch-check-fill", 
+        "color": "text-info" 
+    },
+    { 
+        "key": "total_quizzes", 
+        "label": "Quizzes Taken", 
+        "icon": "bi-check-all", 
+        "color": "text-primary" 
+    },
+    { 
+        "key": "avg_percentage", 
+        "label": "Average Score", 
+        "icon": "bi-graph-up", 
+        "color": "text-warning", 
+        "suffix": "%" 
+    },
+    { 
+        "key": "days_active", 
+        "label": "Days Active", 
+        "icon": "bi-fire", 
+        "color": "text-danger" 
+    }
+]

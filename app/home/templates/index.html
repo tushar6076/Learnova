@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Learnova{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('home.static', filename='css/home.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ai_modal.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero-bg text-white">
+    <div class="container position-relative z-1">
+        <div class="row align-items-center py-5">
+            <div class="col-lg-7">
+                <div class="badge-soft mb-3 text-white border border-white border-opacity-25">Academic Edge v1.0</div>
+                <h1 class="display-3 fw-bold mb-3">Welcome back, <span class="text-primary-light">Scholar!</span></h1>
+                <p class="lead opacity-75 mb-4">Your innovative edge for academic tracking and skill mastery. Explore your personalized curriculum today.</p>
+                
+                <div class="d-flex gap-3">
+                    <button class="btn btn-primary btn-lg px-4 shadow-sm" 
+                        data-bs-toggle="modal" 
+                        {% if current_user.is_authenticated %}
+                            data-bs-target="#aiChatModal"
+                        {% else %}
+                            data-bs-target="#statusModal"
+                        {% endif %}>
+                        <i class="bi bi-chat-dots-fill me-2"></i> Ask Learnova AI
+                    </button>
+                    <a href="{{ url_for('learn.tutorials') }}" class="btn btn-outline-light btn-lg px-4">
+                        My Courses
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center d-none d-lg-block">
+                <div class="hero-icon-wrapper">
+                    <i class="bi bi-rocket-takeoff display-1 text-primary-light floating-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-wave">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C0,0,11.39,40.16,172,41.86A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+        </svg>
+    </div>
+</section>
+
+<main class="container my-5">
+    <div class="row g-4" id="home-cards-container">
+        </div>
+</main>
+
+{% include 'status_model.html' %}
+
+{% with chat_context='home' %}
+    {% include 'ai_modal.html' %}
+{% endwith %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="{{ url_for('home.static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ai_chat.js') }}"></script>
+{% endblock %}

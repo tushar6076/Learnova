@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{{ super() }}
+{% endblock %}
+
+{% block extra_js %}
+{{ super() }}
+{# We only need one JS file now because the logic is the same: Show the modal! #}
+<script src="{{ url_for('home.static', filename='js/status_popup.js') }}"></script>
+{% endblock %}

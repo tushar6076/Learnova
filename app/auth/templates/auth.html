@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Learnova | Authentication</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/graduation-cap.png') }}" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('auth.static', filename='css/auth.css') }}">
+</head>
+<body>
+    <div class="container d-flex justify-content-center py-5">
+        <div class="card auth-card shadow-lg border-0 overflow-hidden">
+            <div class="row g-0 h-100">
+                
+                <div class="col-lg-5 auth-banner text-white p-5 d-none d-lg-flex flex-column justify-content-between">
+                    <div>
+                        <h2 class="fw-bold"><i class="bi bi-rocket-takeoff me-2"></i>Learnova</h2>
+                        <p class="opacity-75">Your AI-driven personalized learning gateway.</p>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-check2-circle fs-4 me-3"></i>
+                            <p class="mb-0">Personalized curriculum based on your Board and Subjects.</p>
+                        </div>
+                        <div class="d-flex mb-3">
+                            <i class="bi bi-check2-circle fs-4 me-3"></i>
+                            <p class="mb-0">Interactive quizzes with difficulty scaling.</p>
+                        </div>
+                    </div>
+                    <p class="small opacity-50 mb-0">© 2026 Learnova. Educational Excellence.</p>
+                </div>
+
+                <div class="col-lg-7 p-4 p-md-5 bg-white shadow-inner">
+                    
+                    <div id="login-section" class="auth-section {{ 'auth-hidden' if mode }}">
+                        <h3 class="fw-bold mb-1">Welcome Back</h3>
+                        <p class="text-muted mb-4">Please enter your details to sign in.</p>
+                        
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Username or Email</label>
+                                <input type="text" id="login-id" class="form-control form-control-lg" required placeholder="Enter username or email">
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label class="form-label small fw-bold">Password</label>
+                                    <a href="javascript:void(0)" onclick="showForgot()" class="small text-decoration-none fw-bold">Forgot?</a>
+                                </div>
+                                <input type="password" id="login-pass" class="form-control form-control-lg" required placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">Sign In</button>
+                        </form>
+                        
+                        <p class="text-center mt-4 small text-muted">
+                            New user? <a href="javascript:void(0)" id="toggle-to-signup" class="fw-bold text-primary text-decoration-none">Create an account</a>
+                        </p>
+                    </div>
+
+                    <div id="signup-section" style="display: none;">
+                        <div class="d-flex align-items-center mb-4 px-2">
+                            <div id="step1-indicator" class="step-indicator bg-primary text-white">1</div>
+                            <div class="flex-grow-1 border-bottom mx-2"></div>
+                            <div id="step2-indicator" class="step-indicator bg-light text-muted">2</div>
+                            <div class="flex-grow-1 border-bottom mx-2"></div>
+                            <div id="step3-indicator" class="step-indicator bg-light text-muted">3</div>
+                        </div>
+
+                        <div id="signup-step-1">
+                            <h3 class="fw-bold mb-1">Create Account</h3>
+                            <p class="text-muted mb-4 small">Step 1: Account credentials</p>
+                            <form id="reg-form-1">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Email Address</label>
+                                    <input type="email" class="form-control form-control-lg" id="reg-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Choose User ID</label>
+                                    <input type="text" class="form-control form-control-lg" id="reg-user" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label small fw-bold">Password</label>
+                                        <input type="password" class="form-control form-control-lg" id="reg-pass" required>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label small fw-bold">Confirm</label>
+                                        <input type="password" class="form-control form-control-lg" id="reg-confirm" required>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary w-100 py-2 fw-bold" onclick="nextStep()">Continue <i class="bi bi-arrow-right ms-2"></i></button>
+                            </form>
+                        </div>
+
+                        <div id="signup-step-2" style="display: none;">
+                            <h3 class="fw-bold mb-1">Tell us about you</h3>
+                            <p class="text-muted mb-4 small">Step 2: Personal Details</p>
+                            <form id="reg-form-2">
+                                <div class="text-center mb-5">
+                                    <div class="avatar-container position-relative d-inline-block">
+                                        <div class="position-relative">
+                                            <img src="{{ url_for('static', filename='assets/avatars/default-avatar.png') }}" 
+                                                alt="Profile Picture" id="signup-avatar-preview" 
+                                                class="rounded-circle border border-5 border-white shadow-lg" 
+                                                style="width: 180px; height: 180px; object-fit: cover; background: #f8f9fa;">
+                                            
+                                            <label for="signup-avatar-upload" 
+                                                class="btn btn-primary position-absolute rounded-circle shadow-lg d-flex align-items-center justify-content-center"
+                                                style="bottom: 10px; right: 10px; width: 45px; height: 45px; border: 4px solid white; cursor: pointer; z-index: 10;">
+                                                <i class="bi bi-camera-fill fs-5"></i>
+                                            </label>
+                                        </div>
+                                        <input type="file" id="signup-avatar-upload" hidden accept="image/*">
+                                    </div>
+                                    <h5 class="fw-bold mt-3 mb-0">Upload Photo</h5>
+                                    <p class="text-muted small">Help us recognize you!</p>
+                                </div>
+                                
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-bold">Full Name</label>
+                                        <input type="text" class="form-control" id="reg-name" placeholder="John Doe" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-bold">Age</label>
+                                        <input type="number" class="form-control" id="reg-age" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-bold">Gender</label>
+                                        <select class="form-select" id="reg-gender">
+                                            <option value="" selected disabled>Select</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-light w-100 px-3" onclick="prevStep()"><i class="bi bi-chevron-left"></i> Back</button>
+                                    <button type="button" class="btn btn-primary w-100 py-2 fw-bold" onclick="nextStep()">Next <i class="bi bi-arrow-right ms-2"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="signup-step-3" style="display: none;">
+                            <h3 class="fw-bold mb-1">Curriculum</h3>
+                            <p class="text-muted mb-4 small">Step 3: Personalized curriculum</p>
+                            <div class="text-end mb-2">
+                                <a href="#" class="text-decoration-none small fw-bold" data-bs-toggle="modal" data-bs-target="#supportModal">
+                                    <i class="bi bi-question-circle me-1"></i>Can't find your course?
+                                </a>
+                            </div>
+                            <form id="reg-form-3">
+                                <div class="row g-2 mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label small fw-bold">Academic Level</label>
+                                        <select class="form-select" id="reg-level-select">
+                                            <option value="" selected disabled>Select Level</option>
+                                            <option value="school">Schooling</option>
+                                            <option value="college">College/University</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label small fw-bold" id="reg-context-label">Board/Major</label>
+                                        <select class="form-select" id="reg-context-select" disabled>
+                                            <option value="" selected disabled>Select Above First</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label small fw-bold">Branch</label>
+                                        <select class="form-select" id="reg-branch-select" disabled>
+                                            <option value="" selected disabled>Select Above First</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label small fw-bold">Grade / Year</label>
+                                        <select class="form-select" id="reg-grade-select" disabled>
+                                            <option value="" selected disabled>Select Above First</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold d-block">Select Subjects (Min 3)</label>
+                                    <div id="reg-subject-chips" class="d-flex flex-wrap gap-2">
+                                        <p class="text-muted small">Select a grade to see subjects.</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-light w-100" onclick="prevStep()"><i class="bi bi-chevron-left"></i> Back</button>
+                                    <button type="submit" class="btn btn-success w-100 fw-bold">Complete Registration <i class="bi bi-check-circle ms-2"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="forgot-section" style="display: none;">
+                        <h3 class="fw-bold mb-1">Recover Account</h3>
+                        <p class="text-muted mb-4 small" id="forgot-msg">Enter your Username or Email to receive a recovery code.</p>
+                        
+                        <form id="forgot-password-form">
+                            <div id="forgot-step-email">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Username or Email</label>
+                                    <input type="text" id="forgot-email" class="form-control form-control-lg" required placeholder="Enter username or email">
+                                </div>
+                                <button type="button" onclick="sendRecoveryCode()" class="btn btn-primary w-100 py-2 fw-bold" id="btn-send-code">Send Code</button>
+                            </div>
+
+                            <div id="forgot-step-otp" style="display: none;">
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Enter 6-Digit Code</label>
+                                    <input type="text" id="forgot-otp" class="form-control form-control-lg text-center fw-bold" maxlength="6" placeholder="000000">
+                                </div>
+                                <button type="button" onclick="verifyRecoveryCode()" class="btn btn-success w-100 py-2 fw-bold" id="btn-verify-code">Verify & Proceed</button>
+                            </div>
+                        </form>
+                        
+                        <p class="text-center mt-4 small">
+                            <a href="javascript:void(0)" onclick="showLogin()" class="text-decoration-none">Back to Login</a>
+                        </p>
+                    </div>
+                    
+                    <div id="reset-section" class="auth-section {{ 'auth-hidden' if mode != 'reset' }}">
+                        <h3 class="fw-bold mb-1">Reset Password</h3>
+                        <p class="text-muted mb-4 small">Enter your new secure password below.</p>
+                        <form id="reset-password-form">
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">New Password</label>
+                                <input type="password" id="new-pass" class="form-control form-control-lg" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Confirm New Password</label>
+                                <input type="password" id="confirm-new-pass" class="form-control form-control-lg" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'support_modal.html' %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('auth.static', filename='js/auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/support.js') }}"></script>
+</body>
+</html>

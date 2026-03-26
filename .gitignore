@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Sensitive Data
+.env
+instance/
+.webassets-cache
+
+# Database
+*.sqlite3
+*.db
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# IDEs
+.vscode/
+.idea/
